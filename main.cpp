@@ -1,6 +1,8 @@
 #include "raylib.h"
 #include <vector>
 #include <cstdlib>
+#include <chrono>
+#include <thread>
 
 using namespace std;
 
@@ -133,6 +135,30 @@ int main(void) {
 			};
 			SELECTOR = { SELECTOR_X, SELECTOR_Y, SELECTOR_W, SELECTOR_H };
 			DrawRectangleRec(SELECTOR, SELEC_COL);
+		};
+		if (CELL_GENERATING == 1) {
+			for (int i = 0; i < 40000; i++) {
+				if (ALIVE_REF[i] == 1) {
+					if ((i + 1) % 200 != 0 && i % 200 != 0 && i > 199 && i < 39799) {
+						if (ALIVE_REF[i - 1] == 1 && ALIVE_REF[i+1] == 1) {
+							ALIVE_REF[i] = 0;
+						}
+						else if (ALIVE_REF[i + 1] == 1 || ALIVE_REF[i-1] == 1) {
+							ALIVE_REF[i] = 1;
+						}
+						else {
+							ALIVE_REF[i] = 0;
+						};
+					};
+				} else {
+					if ((i + 1) % 200 != 0 && i % 200 != 0 && i > 199 && i < 39799) {
+						if (ALIVE_REF[i - 1] == 1 || ALIVE_REF[i + 1] == 1) {
+							ALIVE_REF[i] = 1;
+						};
+					};
+				};
+			};
+			this_thread::sleep_for(0.05s);
 		};
 		EndDrawing();
 		TILE_X = 0;
