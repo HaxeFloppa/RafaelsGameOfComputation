@@ -14,7 +14,9 @@ Color RandomColor() {
 
 float SELECTOR_X = 0;
 float SELECTOR_Y = 0;
-Rectangle SELECTOR = { SELECTOR_X, SELECTOR_Y, 5, 5 };
+float SELECTOR_W = 5;
+float SELECTOR_H = 5;
+Rectangle SELECTOR = { SELECTOR_X, SELECTOR_Y, SELECTOR_W, SELECTOR_H };
 vector<Rectangle> CELL_REF;
 bool SELEC_COLLIDE(int CELL_CHECK) {
 	return CheckCollisionRecs(SELECTOR, CELL_REF[CELL_CHECK]);
@@ -82,6 +84,8 @@ int main(void) {
 			DrawText("arrow keys to move tiles", 0, 50, 25, DARKGRAY);
 			DrawText("enter to place cell", 0, 75, 25, DARKGRAY);
 			DrawText("press c to clear screen", 0, 100, 25, DARKGRAY);
+			DrawText("press w to increase brush size", 0, 125, 25, DARKGRAY);
+			DrawText("press s to decrease brush size", 0, 150, 25, DARKGRAY);
 			if (IsKeyDown(KEY_LEFT) && SELECTOR_X != 0) {
 				SELECTOR_X = SELECTOR_X - 5;
 			};
@@ -96,14 +100,15 @@ int main(void) {
 			};
 			if (IsKeyPressed(KEY_ENTER)) {
 				COL_CHECK = 0;
-				while (!SELEC_COLLIDE(COL_CHECK)) {
-					COL_CHECK++;
-					continue;
-				};
-				if (ALIVE_REF[COL_CHECK] == 0) {
-					ALIVE_REF[COL_CHECK] = 1;
-				} else {
-					ALIVE_REF[COL_CHECK] = 0;
+				for (int i = 0; i < 40000; i++) {
+					if (SELEC_COLLIDE(i)) {
+						if (ALIVE_REF[i] == 0) {
+							ALIVE_REF[i] = 1;
+						}
+						else {
+							ALIVE_REF[i] = 0;
+						};
+					};
 				};
 			};
 			if (IsKeyPressed(KEY_A)) {
@@ -118,7 +123,15 @@ int main(void) {
 					ALIVE_REF.push_back(0);
 				};
 			};
-			SELECTOR = { SELECTOR_X, SELECTOR_Y, 5, 5 };
+			if (IsKeyPressed(KEY_W)) {
+				SELECTOR_W = SELECTOR_W + 5;
+				SELECTOR_H = SELECTOR_H + 5;
+			};
+			if (IsKeyPressed(KEY_S)) {
+				SELECTOR_W = SELECTOR_W - 5;
+				SELECTOR_H = SELECTOR_H - 5;
+			};
+			SELECTOR = { SELECTOR_X, SELECTOR_Y, SELECTOR_W, SELECTOR_H };
 			DrawRectangleRec(SELECTOR, SELEC_COL);
 		};
 		EndDrawing();
