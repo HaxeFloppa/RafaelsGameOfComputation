@@ -3,6 +3,7 @@
 #include <cstdlib>
 #include <chrono>
 #include <thread>
+#include <string>
 
 using namespace std;
 
@@ -32,8 +33,13 @@ int main(void) {
 	int COLOR_TOG = 0;
 	int COLOR_IDEN = 0;
 	int CELL_GENERATING = 0;
+	int NEIGHBOUR_COUNT = 0;
+	vector<int> TO_DIE;
+	vector<int> TO_LIVE;
 	vector<int> ALIVE_REF;
+	int AUTOMATA_OFCHOICE = 0;
 	int COL_CHECK;
+	const char* AUTOMATA_TYPEA = "CONWAY'S GAME OF LIFE";
 	Color SELEC_COL = { 255, 255, 255, 100 };
 	for (int i = 0; i < 40000; i++) {
 		ALIVE_REF.push_back(0);
@@ -64,7 +70,7 @@ int main(void) {
 			CELL_GENERATING = 1;
 		};
 		while (!(TILE_X >= 1000) && !(TILE_Y >= 1000)) {
-			CELL_REF.push_back({TILE_X, TILE_Y, 5, 5});
+			CELL_REF.push_back({TILE_X, TILE_Y, 4, 4});
 			if (ALIVE_REF[TILE_COUNT] == 1) {
 				DrawRectangleRec(CELL_REF[TILE_COUNT], COLOR_CHOICE);
 			} else {
@@ -88,6 +94,8 @@ int main(void) {
 			DrawText("press c to clear screen", 0, 100, 25, DARKGRAY);
 			DrawText("press w to increase brush size", 0, 125, 25, DARKGRAY);
 			DrawText("press s to decrease brush size", 0, 150, 25, DARKGRAY);
+			DrawText("press f to switch automatas", 0, 175, 25, DARKGRAY);
+			DrawText(AUTOMATA_TYPEA, 0, 775, 25, GREEN);
 			if (IsKeyDown(KEY_LEFT) && SELECTOR_X != 0) {
 				SELECTOR_X = SELECTOR_X - 5;
 			};
@@ -137,29 +145,93 @@ int main(void) {
 			DrawRectangleRec(SELECTOR, SELEC_COL);
 		};
 		if (CELL_GENERATING == 1) {
+			this_thread::sleep_for(0.05s);
+			for (int i = 0; i < TO_DIE.size(); i++) {
+				ALIVE_REF[TO_DIE[i]] = 0;
+			};
+			for (int i = 0; i < TO_LIVE.size(); i++) {
+				ALIVE_REF[TO_LIVE[i]] = 1;
+			};
+			TO_DIE.clear();
+			TO_LIVE.clear();
 			for (int i = 0; i < 40000; i++) {
-				if (ALIVE_REF[i] == 1) {
-					if ((i + 1) % 200 != 0 && i % 200 != 0 && i > 199 && i < 39799) {
-						if (ALIVE_REF[i - 1] == 1 && ALIVE_REF[i+1] == 1) {
-							ALIVE_REF[i] = 0;
-						}
-						else if (ALIVE_REF[i + 1] == 1 || ALIVE_REF[i-1] == 1) {
-							ALIVE_REF[i] = 1;
-						}
-						else {
-							ALIVE_REF[i] = 0;
+				NEIGHBOUR_COUNT = 0;
+				if (AUTOMATA_OFCHOICE == 0) {
+					if (ALIVE_REF[i] == 1) {
+						if ((i + 1) % 200 != 0 && i % 200 != 0 && i > 199 && i < 39799) {
+							if (ALIVE_REF[i + 1] == 1) {
+								NEIGHBOUR_COUNT++;
+							};
+							if (ALIVE_REF[i - 1] == 1) {
+								NEIGHBOUR_COUNT++;
+							};
+							if (ALIVE_REF[i + 200] == 1) {
+								NEIGHBOUR_COUNT++;
+							};
+							if (ALIVE_REF[i - 200] == 1) {
+								NEIGHBOUR_COUNT++;
+							};
+							if (ALIVE_REF[i + 201] == 1) {
+								NEIGHBOUR_COUNT++;
+							};
+							if (ALIVE_REF[i + 199] == 1) {
+								NEIGHBOUR_COUNT++;
+							};
+							if (ALIVE_REF[i - 201] == 1) {
+								NEIGHBOUR_COUNT++;
+							};
+							if (ALIVE_REF[i - 199] == 1) {
+								NEIGHBOUR_COUNT++;
+							};
+							switch (NEIGHBOUR_COUNT) {
+								case 2:
+									break;
+								case 3:
+									break;
+								default:
+									TO_DIE.push_back(i);
+									break;
+							};
 						};
-					};
-				} else {
-					if ((i + 1) % 200 != 0 && i % 200 != 0 && i > 199 && i < 39799) {
-						if (ALIVE_REF[i - 1] == 1 || ALIVE_REF[i + 1] == 1) {
-							ALIVE_REF[i] = 1;
+					}
+					else {
+						if ((i + 1) % 200 != 0 && i % 200 != 0 && i > 199 && i < 39799) {
+							if (ALIVE_REF[i + 1] == 1) {
+								NEIGHBOUR_COUNT++;
+							};
+							if (ALIVE_REF[i - 1] == 1) {
+								NEIGHBOUR_COUNT++;
+							};
+							if (ALIVE_REF[i + 200] == 1) {
+								NEIGHBOUR_COUNT++;
+							};
+							if (ALIVE_REF[i - 200] == 1) {
+								NEIGHBOUR_COUNT++;
+							};
+							if (ALIVE_REF[i + 201] == 1) {
+								NEIGHBOUR_COUNT++;
+							};
+							if (ALIVE_REF[i + 199] == 1) {
+								NEIGHBOUR_COUNT++;
+							};
+							if (ALIVE_REF[i - 201] == 1) {
+								NEIGHBOUR_COUNT++;
+							};
+							if (ALIVE_REF[i - 199] == 1) {
+								NEIGHBOUR_COUNT++;
+							};
+							switch (NEIGHBOUR_COUNT) {
+								case 3:
+									TO_LIVE.push_back(i);
+									break;
+								default:
+									break;
+							};
 						};
 					};
 				};
 			};
-			this_thread::sleep_for(0.05s);
-		};
+		}; 
 		EndDrawing();
 		TILE_X = 0;
 		TILE_Y = 0;

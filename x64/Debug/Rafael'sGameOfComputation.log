@@ -1,5 +1,5 @@
 ﻿  main.cpp
-C:\Users\exd20\Documents\Rafael'sGameOfComputation\Rafael'sGameOfComputation\main.cpp(68,18): warning C4244: 'argument': conversion from 'float' to 'const unsigned __int64', possible loss of data
-C:\Users\exd20\Documents\Rafael'sGameOfComputation\Rafael'sGameOfComputation\main.cpp(69,31): warning C4244: 'argument': conversion from 'float' to 'const unsigned __int64', possible loss of data
-C:\Users\exd20\Documents\Rafael'sGameOfComputation\Rafael'sGameOfComputation\main.cpp(71,31): warning C4244: 'argument': conversion from 'float' to 'const unsigned __int64', possible loss of data
+C:\Users\exd20\Documents\Rafael'sGameOfComputation\Rafael'sGameOfComputation\main.cpp(74,18): warning C4244: 'argument': conversion from 'float' to 'const unsigned __int64', possible loss of data
+C:\Users\exd20\Documents\Rafael'sGameOfComputation\Rafael'sGameOfComputation\main.cpp(75,31): warning C4244: 'argument': conversion from 'float' to 'const unsigned __int64', possible loss of data
+C:\Users\exd20\Documents\Rafael'sGameOfComputation\Rafael'sGameOfComputation\main.cpp(77,31): warning C4244: 'argument': conversion from 'float' to 'const unsigned __int64', possible loss of data
   Rafael'sGameOfComputation.vcxproj -> C:\Users\exd20\Documents\Rafael'sGameOfComputation\Rafael'sGameOfComputation\x64\Debug\Rafael'sGameOfComputation.exe
