@@ -39,12 +39,13 @@ int main(void) {
 	vector<int> ALIVE_REF;
 	int AUTOMATA_OFCHOICE = 0;
 	int COL_CHECK;
+	int COOLDOWN_CONFIRM = 1;
 	const char* AUTOMATA_TYPEA = "CONWAY'S GAME OF LIFE";
 	Color SELEC_COL = { 255, 255, 255, 100 };
 	for (int i = 0; i < 40000; i++) {
 		ALIVE_REF.push_back(0);
 	};
-	InitWindow(1000, 800, "Rafael's Game Of Computation");
+	InitWindow(1000, 1000, "Rafael's Game Of Computation");
 	while (!WindowShouldClose()) {
 		BeginDrawing();
 		ClearBackground(DARKGRAY);
@@ -95,7 +96,14 @@ int main(void) {
 			DrawText("press w to increase brush size", 0, 125, 25, DARKGRAY);
 			DrawText("press s to decrease brush size", 0, 150, 25, DARKGRAY);
 			DrawText("press f to switch automatas", 0, 175, 25, DARKGRAY);
-			DrawText(AUTOMATA_TYPEA, 0, 775, 25, GREEN);
+			DrawText("press r for a random arrangement of cells", 0, 200, 25, DARKGRAY);
+			DrawText("press left shift to toggle cooldown", 0, 225, 25, DARKGRAY);
+			if (COOLDOWN_CONFIRM == 1) {
+				DrawText("COOLDOWN: ON", 0, 950, 25, GREEN);
+			} else {
+				DrawText("COOLDOWN: OFF", 0, 950, 25, GREEN);
+			};
+			DrawText(AUTOMATA_TYPEA, 0, 975, 25, GREEN);
 			if (IsKeyDown(KEY_LEFT) && SELECTOR_X != 0) {
 				SELECTOR_X = SELECTOR_X - 5;
 			};
@@ -121,16 +129,29 @@ int main(void) {
 					};
 				};
 			};
-			if (IsKeyPressed(KEY_A)) {
-				ALIVE_REF.clear();
+			if (IsKeyPressed(KEY_LEFT_SHIFT)) {
+				switch (COOLDOWN_CONFIRM) {
+					case 0:
+						COOLDOWN_CONFIRM = 1;
+						break;
+					case 1:
+						COOLDOWN_CONFIRM = 0;
+						break;
+				};
+			};
+			if (IsKeyPressed(KEY_R)) {
 				for (int i = 0; i < 40000; i++) {
-					ALIVE_REF.push_back(1);
+					ALIVE_REF[i] = round(rand()%2);
+				};
+			};
+			if (IsKeyPressed(KEY_A)) {
+				for (int i = 0; i < 40000; i++) {
+					ALIVE_REF[i] = 1;
 				};
 			};
 			if (IsKeyPressed(KEY_C)) {
-				ALIVE_REF.clear();
 				for (int i = 0; i < 40000; i++) {
-					ALIVE_REF.push_back(0);
+					ALIVE_REF[i] = 0;
 				};
 			};
 			if (IsKeyPressed(KEY_W)) {
@@ -145,7 +166,10 @@ int main(void) {
 			DrawRectangleRec(SELECTOR, SELEC_COL);
 		};
 		if (CELL_GENERATING == 1) {
-			this_thread::sleep_for(0.05s);
+			DrawFPS(0,0);
+			if (COOLDOWN_CONFIRM == 1) {
+				this_thread::sleep_for(0.05s);
+			};
 			for (int i = 0; i < TO_DIE.size(); i++) {
 				ALIVE_REF[TO_DIE[i]] = 0;
 			};
