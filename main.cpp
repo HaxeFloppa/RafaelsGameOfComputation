@@ -3,7 +3,7 @@
 #include <cstdlib>
 #include <chrono>
 #include <thread>
-#include <string>
+#include <cmath>
 
 using namespace std;
 
@@ -72,7 +72,7 @@ int main(void) {
 		};
 		while (!(TILE_X >= 1000) && !(TILE_Y >= 1000)) {
 			CELL_REF.push_back({TILE_X, TILE_Y, 4, 4});
-			if (ALIVE_REF[TILE_COUNT] == 1) {
+			if (ALIVE_REF[TILE_COUNT] == 1 && (fmod(TILE_COUNT + 1, 200) != 0 && fmod(TILE_COUNT, 200) != 0 && TILE_COUNT > 199 && TILE_COUNT < 39799)) {
 				DrawRectangleRec(CELL_REF[TILE_COUNT], COLOR_CHOICE);
 			} else {
 				DrawRectangleRec(CELL_REF[TILE_COUNT], BLACK);
@@ -88,16 +88,6 @@ int main(void) {
 			};
 		};
 		if (CELL_GENERATING == 0) {
-			DrawText("press space to start", 0, 0, 25, DARKGRAY);
-			DrawText("press a to fill screen", 0, 25, 25, DARKGRAY);
-			DrawText("arrow keys to move tiles", 0, 50, 25, DARKGRAY);
-			DrawText("enter to place cell", 0, 75, 25, DARKGRAY);
-			DrawText("press c to clear screen", 0, 100, 25, DARKGRAY);
-			DrawText("press w to increase brush size", 0, 125, 25, DARKGRAY);
-			DrawText("press s to decrease brush size", 0, 150, 25, DARKGRAY);
-			DrawText("press f to switch automatas", 0, 175, 25, DARKGRAY);
-			DrawText("press r for a random arrangement of cells", 0, 200, 25, DARKGRAY);
-			DrawText("press left shift to toggle cooldown", 0, 225, 25, DARKGRAY);
 			if (COOLDOWN_CONFIRM == 1) {
 				DrawText("COOLDOWN: ON", 0, 950, 25, GREEN);
 			} else {
@@ -164,9 +154,21 @@ int main(void) {
 			};
 			SELECTOR = { SELECTOR_X, SELECTOR_Y, SELECTOR_W, SELECTOR_H };
 			DrawRectangleRec(SELECTOR, SELEC_COL);
+			DrawText("press space to start", 0, 0, 25, LIGHTGRAY);
+			DrawText("press a to fill screen", 0, 25, 25, LIGHTGRAY);
+			DrawText("arrow keys to move tiles", 0, 50, 25, LIGHTGRAY);
+			DrawText("enter to place cell", 0, 75, 25, LIGHTGRAY);
+			DrawText("press c to clear screen", 0, 100, 25, LIGHTGRAY);
+			DrawText("press w to increase brush size", 0, 125, 25, LIGHTGRAY);
+			DrawText("press s to decrease brush size", 0, 150, 25, LIGHTGRAY);
+			DrawText("press f to switch automatas", 0, 175, 25, LIGHTGRAY);
+			DrawText("press r for a random arrangement of cells", 0, 200, 25, LIGHTGRAY);
+			DrawText("press left shift to toggle cooldown", 0, 225, 25, LIGHTGRAY);
 		};
 		if (CELL_GENERATING == 1) {
-			DrawFPS(0,0);
+			if (IsKeyPressed(KEY_P)) {
+				CELL_GENERATING = 0;
+			};
 			if (COOLDOWN_CONFIRM == 1) {
 				this_thread::sleep_for(0.05s);
 			};
@@ -255,6 +257,8 @@ int main(void) {
 					};
 				};
 			};
+			DrawFPS(0, 0);
+			DrawText("press p to pause", 0, 20, 25, RAYWHITE);
 		}; 
 		EndDrawing();
 		TILE_X = 0;

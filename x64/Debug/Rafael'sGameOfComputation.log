@@ -2,7 +2,7 @@
 C:\Users\exd20\Documents\Rafael'sGameOfComputation\Rafael'sGameOfComputation\main.cpp(75,18): warning C4244: 'argument': conversion from 'float' to 'const unsigned __int64', possible loss of data
 C:\Users\exd20\Documents\Rafael'sGameOfComputation\Rafael'sGameOfComputation\main.cpp(76,31): warning C4244: 'argument': conversion from 'float' to 'const unsigned __int64', possible loss of data
 C:\Users\exd20\Documents\Rafael'sGameOfComputation\Rafael'sGameOfComputation\main.cpp(78,31): warning C4244: 'argument': conversion from 'float' to 'const unsigned __int64', possible loss of data
-C:\Users\exd20\Documents\Rafael'sGameOfComputation\Rafael'sGameOfComputation\main.cpp(144,26): warning C4244: '=': conversion from 'double' to '_Ty', possible loss of data
+C:\Users\exd20\Documents\Rafael'sGameOfComputation\Rafael'sGameOfComputation\main.cpp(134,26): warning C4244: '=': conversion from 'double' to '_Ty', possible loss of data
           with
           [
               _Ty=int
