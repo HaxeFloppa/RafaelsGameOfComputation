@@ -40,7 +40,6 @@ int main(void) {
 	int AUTOMATA_OFCHOICE = 0;
 	int COL_CHECK;
 	int COOLDOWN_CONFIRM = 1;
-	const char* AUTOMATA_TYPEA = "CONWAY'S GAME OF LIFE";
 	Color SELEC_COL = { 255, 255, 255, 100 };
 	for (int i = 0; i < 40000; i++) {
 		ALIVE_REF.push_back(0);
@@ -88,12 +87,6 @@ int main(void) {
 			};
 		};
 		if (CELL_GENERATING == 0) {
-			if (COOLDOWN_CONFIRM == 1) {
-				DrawText("COOLDOWN: ON", 0, 950, 25, GREEN);
-			} else {
-				DrawText("COOLDOWN: OFF", 0, 950, 25, GREEN);
-			};
-			DrawText(AUTOMATA_TYPEA, 0, 975, 25, GREEN);
 			if (IsKeyDown(KEY_LEFT) && SELECTOR_X != 0) {
 				SELECTOR_X = SELECTOR_X - 5;
 			};
@@ -152,6 +145,16 @@ int main(void) {
 				SELECTOR_W = SELECTOR_W - 5;
 				SELECTOR_H = SELECTOR_H - 5;
 			};
+			if (IsKeyPressed(KEY_F)) {
+				switch (AUTOMATA_OFCHOICE) {
+					case 0:
+						AUTOMATA_OFCHOICE = 1;
+						break;
+					case 1:
+						AUTOMATA_OFCHOICE = 0;
+						break;
+				};
+			};
 			SELECTOR = { SELECTOR_X, SELECTOR_Y, SELECTOR_W, SELECTOR_H };
 			DrawRectangleRec(SELECTOR, SELEC_COL);
 			DrawText("press space to start", 0, 0, 25, LIGHTGRAY);
@@ -164,6 +167,16 @@ int main(void) {
 			DrawText("press f to switch automatas", 0, 175, 25, LIGHTGRAY);
 			DrawText("press r for a random arrangement of cells", 0, 200, 25, LIGHTGRAY);
 			DrawText("press left shift to toggle cooldown", 0, 225, 25, LIGHTGRAY);
+			if (COOLDOWN_CONFIRM == 1) {
+				DrawText("COOLDOWN: ON", 0, 950, 25, GREEN);
+			} else {
+				DrawText("COOLDOWN: OFF", 0, 950, 25, GREEN);
+			};
+			if (AUTOMATA_OFCHOICE == 0) {
+				DrawText("CONWAY'S GAME OF LIFE", 0, 975, 25, GREEN);
+			} else {
+				DrawText("RAFAEL'S GAME OF COMPUTATION", 0, 975, 25, GREEN);
+			};
 		};
 		if (CELL_GENERATING == 1) {
 			if (IsKeyPressed(KEY_P)) {
@@ -183,6 +196,7 @@ int main(void) {
 			for (int i = 0; i < 40000; i++) {
 				NEIGHBOUR_COUNT = 0;
 				if (AUTOMATA_OFCHOICE == 0) {
+					// CONWAY'S GAME OF LIFE
 					if (ALIVE_REF[i] == 1) {
 						if ((i + 1) % 200 != 0 && i % 200 != 0 && i > 199 && i < 39799) {
 							if (ALIVE_REF[i + 1] == 1) {
@@ -248,6 +262,80 @@ int main(void) {
 							};
 							switch (NEIGHBOUR_COUNT) {
 								case 3:
+									TO_LIVE.push_back(i);
+									break;
+								default:
+									break;
+							};
+						};
+					};
+				} else {
+					// RAFAEL'S GAME OF COMPUTATION
+					if (ALIVE_REF[i] == 1) {
+						if ((i + 1) % 200 != 0 && i % 200 != 0 && i > 199 && i < 39799) {
+							if (ALIVE_REF[i + 1] == 1) {
+								NEIGHBOUR_COUNT++;
+							};
+							if (ALIVE_REF[i - 1] == 1) {
+								NEIGHBOUR_COUNT++;
+							};
+							if (ALIVE_REF[i + 200] == 1) {
+								NEIGHBOUR_COUNT++;
+							};
+							if (ALIVE_REF[i - 200] == 1) {
+								NEIGHBOUR_COUNT++;
+							};
+							if (ALIVE_REF[i + 201] == 1) {
+								NEIGHBOUR_COUNT++;
+							};
+							if (ALIVE_REF[i + 199] == 1) {
+								NEIGHBOUR_COUNT++;
+							};
+							if (ALIVE_REF[i - 201] == 1) {
+								NEIGHBOUR_COUNT++;
+							};
+							if (ALIVE_REF[i - 199] == 1) {
+								NEIGHBOUR_COUNT++;
+							};
+							switch (NEIGHBOUR_COUNT) {
+								case 1:
+									break;
+								case 2:
+									break;
+								default:
+									TO_DIE.push_back(i);
+									break;
+							};
+						};
+					}
+					else {
+						if ((i + 1) % 200 != 0 && i % 200 != 0 && i > 199 && i < 39799) {
+							if (ALIVE_REF[i + 1] == 1) {
+								NEIGHBOUR_COUNT++;
+							};
+							if (ALIVE_REF[i - 1] == 1) {
+								NEIGHBOUR_COUNT++;
+							};
+							if (ALIVE_REF[i + 200] == 1) {
+								NEIGHBOUR_COUNT++;
+							};
+							if (ALIVE_REF[i - 200] == 1) {
+								NEIGHBOUR_COUNT++;
+							};
+							if (ALIVE_REF[i + 201] == 1) {
+								NEIGHBOUR_COUNT++;
+							};
+							if (ALIVE_REF[i + 199] == 1) {
+								NEIGHBOUR_COUNT++;
+							};
+							if (ALIVE_REF[i - 201] == 1) {
+								NEIGHBOUR_COUNT++;
+							};
+							if (ALIVE_REF[i - 199] == 1) {
+								NEIGHBOUR_COUNT++;
+							};
+							switch (NEIGHBOUR_COUNT) {
+								case 2:
 									TO_LIVE.push_back(i);
 									break;
 								default:
